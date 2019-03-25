@@ -1,0 +1,74 @@
+x="FUNCTION"
+y=$x".000"
+
+rc=rplcomp
+
+echo $x
+echo $y
+
+./sasm -e -N SUPROM39
+
+./rplcomp lib.s _LIB.A _LIB.EXT
+echo "	NIBASC	\\HP39BinH\\"     > _BDL.A
+echo "	CON(2)	((Name)-(*)-2)/2" >> _BDL.A
+echo "	NIBASC	\\Simple Function\\"        >> _BDL.A
+echo Name                       >> _BDL.A
+
+
+./sasm -e -N _BDL
+./rplcomp lib.s _LIB.A _LIB.EXT
+./sasm -e -N _LIB
+
+echo TITLE $x Lib					    > _BUILD.MN
+echo OUTPUT __LIB.O					   >> _BUILD.MN
+echo LLIST _.LR 					   >> _BUILD.MN
+echo CONFIGURE functioncfg 				   >> _BUILD.MN
+echo NAME Funct						   >> _BUILD.MN
+echo ROMPHEAD _HEAD.A					   >> _BUILD.MN
+echo REL _LIB.O 					   >> _BUILD.MN
+echo SEARCH    SUPROM39.O 				   >> _BUILD.MN
+echo TABLE _HASH.A					   >> _BUILD.MN
+echo FINISH _END.A					   >> _BUILD.MN
+echo END						   >> _BUILD.MN
+
+./makerom _BUILD.MN _BUILD.M
+
+
+./sasm -e -N _HEAD
+./sasm -e -N _HASH
+./sasm -e -N _END
+
+echo TITLE $x Lib					    > _LOADER.M
+echo OUTPUT LIB1540L.000				   >> _LOADER.M
+echo OPTION CODE					   >> _LOADER.M
+echo LLIST LIB1540L.LR					   >> _LOADER.M
+echo SUPPRESS XR					   >> _LOADER.M
+echo SEARCH SUPROM39.O					   >> _LOADER.M
+echo REL _BDL.O 					   >> _LOADER.M
+echo REL __LIB.O					   >> _LOADER.M
+echo CK LIB604 SYSEND604				   >> _LOADER.M
+
+./sload _BUILD.M
+./sload -H _LOADER.M
+
+echo Library built. To build apdir and control files,
+
+echo OUTPUT    $y					    >_LOADER.M
+echo LLIST     $x.LR					   >>_LOADER.M
+echo SUPPRESS  XR					   >>_LOADER.M
+echo OPTION    CODE					   >>_LOADER.M
+echo SEARCH    SUPROM39.O				   >>_LOADER.M
+echo REL       $x.O					   >>_LOADER.M
+echo END						   >>_LOADER.M
+
+echo HP39AscA A 11 HP39DIR.0004 Root			   > HP39DIR.CUR
+echo HP39AscA B 12 "$y"8 "$x"H 12 LIB1540L.0008 LIB1540L   > HP39DIR.000
+
+./rplcomp $x.s $x.A
+
+./sasm -e -N $x
+
+./sload -H _LOADER.M
+#rm lib.s common39.h pileface.h
+rm *.o
+rm _*

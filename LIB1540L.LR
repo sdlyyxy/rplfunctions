@@ -1,0 +1,24 @@
+Filling 4 nibble CRC check value 3736 at address 006F7
+Saturn Loader, Ver. version 3.1.0, 8/24/99
+
+
+Output Module:
+Module=LIB1540L.000
+  Start=00000 End=006FA Length=006FB   Symbols=   0 References=   0
+  Date=Thu Mar 21 22:39:54 2019   Title= FUNCTION Lib
+
+
+Source modules:
+Module=SUPROM39.O
+  Start=00000 Module Contains No Code
+  Date=Thu Mar 21 22:39:53 2019   Title=                                        Thu Mar 21 22:39:53 2019
+
+Module=_BDL.O
+  Start=00000 End=0002F Length=00030
+  Date=Thu Mar 21 22:39:54 2019   Title=                                        Thu Mar 21 22:39:54 2019
+
+Module=__LIB.O
+  Start=00030 End=006FA Length=006CB
+  Date=Thu Mar 21 22:39:54 2019   Title= FUNCTION Lib                           Thu Mar 21 22:39:54 2019
+
+/SLOAD:  End of Saturn Loader Execution
