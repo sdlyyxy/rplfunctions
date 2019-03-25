@@ -73,6 +73,69 @@ xNAME QFUNC
 ;
 RPL
 
+***** power ratio -> db
+
+ASSEMBLE
+        CON(3)  0
+*         CON(1)  8
+RPL
+
+xNAME DB
+::
+  CK1&Dispatch
+  ONE ::  %LOG %10 %*
+   
+  ;
+;
+RPL
+
+***** db->power ratio
+
+ASSEMBLE
+        CON(3)  0
+*         CON(1)  8
+RPL
+
+xNAME IDB
+::
+  CK1&Dispatch
+  ONE :: %10 %/ %ALOG
+   
+  ;
+;
+RPL
+
+***** dbm -> power
+
+ASSEMBLE
+        CON(3)  0
+*         CON(1)  8
+RPL
+
+xNAME IDBM
+::
+  CK1&Dispatch
+  ONE :: %10 %/ %3 %- %ALOG
+   
+  ;
+;
+RPL
+
+***** power  -> dbm
+
+ASSEMBLE
+        CON(3)  0
+*         CON(1)  8
+RPL
+
+xNAME DBM
+::
+  CK1&Dispatch
+  ONE :: %LOG %3 %+ %10 %*
+   
+  ;
+;
+RPL
 
 ***** RANDN normal random N(0,1)
 ASSEMBLE
