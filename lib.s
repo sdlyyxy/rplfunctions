@@ -73,6 +73,61 @@ xNAME QFUNC
 ;
 RPL
 
+
+***** order 0 besselj function 
+
+ASSEMBLE
+        CON(3)  0
+*         CON(1)  8
+RPL
+
+xNAME BJ0
+::
+  CK1&Dispatch
+  ONE :: 
+  {
+	LAM varx
+	}
+	BIND
+  LAM varx %7 %/ % 20 %^ %1 %+ %1 SWAP %/ DUP 
+  %1 %6 %/ %1 %3 %/ LAM varx %2 %/ %COS %* %1 %3 %/ %3 %SQRT LAM varx %* %2 %/ %COS %* %1 %6 %/ LAM varx %COS %* %+ %+ %+ %*
+  SWAP
+  %1 SWAP %- LAM varx DUP %SGN %PI %* %4 %/ %- %COS %2 %PI LAM varx %ABS %* %/ %SQRT %* %* %+
+	ABND
+  ;
+;
+RPL
+
+***** MEL: frequency -> mel
+
+ASSEMBLE
+        CON(3)  0
+RPL
+
+xNAME MEL
+::
+  CK1&Dispatch
+  ONE ::  % 700 %/ %1 %+ %LN % 1127 %*
+  ;
+;
+RPL
+
+
+***** IMEL: mel -> frequency
+
+ASSEMBLE
+        CON(3)  0
+RPL
+
+xNAME IMEL
+::
+  CK1&Dispatch
+  ONE ::  % 1127 %/ %EXP %1 %- % 700 %*
+  ;
+;
+RPL
+
+
 ***** power ratio -> db
 
 ASSEMBLE
@@ -241,7 +296,7 @@ xNAME BETA
 ;
 RPL
 
-***** CC make complex number use length and angle
+***** CC make complex number use length and angle (%POL>%REC ?)
 
 ASSEMBLE
         CON(3)  0
